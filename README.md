@@ -30,7 +30,7 @@ It does this by opening a reverse SSH tunnel from your laptop to your server, th
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate   # on Windows: .venv\Scripts\activate
-python3 msoibat.py
+python3 mosibat.py
 ```
 
 The script will ask you for:
@@ -56,15 +56,43 @@ proxychains4 wget ...
 
 Press `Ctrl+C` on your laptop when done — the script will tear everything down and restore your server to its original state.
 
+## Emergency internet for a coworker (remote)
+
+If a coworker is away and cannot use your laptop or phone, but they **have SSH access to the same server** and need emergency open-internet access, you can piggyback on your running tunnel.
+
+**Prerequisites:**
+
+- MOSIBAT is still running on your side (reverse tunnel active), with your laptop or phone still providing SOCKS over the hotspot path you chose when you ran the script.
+- You tell your coworker the **tunnel port on the server** (the port you configured for “the tunnel on the server”; default example is `1080`).
+- Their SSH user can log in and has TCP forwarding allowed by `sshd` (typical defaults allow this).
+
+**Step 1 — on the coworker's machine**, they open a local forward so their traffic can reach `127.0.0.1:<tunnel_port>` on the server (where your tunnel is listening). Replace placeholders with real values:
+
+```bash
+ssh -N -L <local_port>:127.0.0.1:<tunnel_port> user@<server-host>
+```
+
+Use a spare `<local_port>` on their laptop (for example `19080`). `-N` keeps the session open only for forwarding; they leave this terminal running.
+
+If the server SSH daemon listens on a non-default port:
+
+```bash
+ssh -p <ssh-port> -N -L <local_port>:127.0.0.1:<tunnel_port> user@<server-host>
+```
+
+**Step 2 — on the coworker's machine**, point their SOCKS5 client at **`127.0.0.1:<local_port>`** (same `<local_port>` as above). Traffic then flows: their app → SSH local forward → server loopback tunnel port → your reverse SSH → your SOCKS (laptop/VPN/hotlinked phone path) → the internet.
+
+They can use v2rayNG, another SOCKS5-capable client, or any tool that accepts a SOCKS5 proxy pointing at `127.0.0.1:<local_port>`.
+
 ## If the Script Was Force-Killed
 
 If the script was killed before it could clean up, run reset mode to restore the server manually:
 
 ```bash
-python3 msoibat.py --reset <ssh-host>
+python3 mosibat.py --reset <ssh-host>
 
 # if your server uses a non-standard SSH port:
-python3 msoibat.py --reset <ssh-host> --ssh-port 2222
+python3 mosibat.py --reset <ssh-host> --ssh-port 2222
 ```
 
 ## Important Warning
@@ -72,9 +100,3 @@ python3 msoibat.py --reset <ssh-host> --ssh-port 2222
 This script **installs `proxychains4`** on your server automatically, and **removes it again** when you exit cleanly.
 
 If you are already using `proxychains4` on your server for other purposes — **do not use this script**. It will overwrite your existing config and uninstall the package on exit, which will break your existing setup.
-
-
-## Contribution
-
-if you wanted to make any improvements to the script
-please keep everything in a single file `mosibat.py` for simplicity.
