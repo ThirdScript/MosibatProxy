@@ -72,3 +72,9 @@ python3 lsproxy.py --reset <ssh-host> --ssh-port 2222
 This script **installs `proxychains4`** on your server automatically, and **removes it again** when you exit cleanly.
 
 If you are already using `proxychains4` on your server for other purposes — **do not use this script**. It will overwrite your existing config and uninstall the package on exit, which will break your existing setup.
+
+
+## Contribution
+
+if you wanted to make any improvements to the script
+please keep everything in a single file `mosibat.py` for simplicity.
