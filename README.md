@@ -30,7 +30,7 @@ It does this by opening a reverse SSH tunnel from your laptop to your server, th
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate   # on Windows: .venv\Scripts\activate
-python3 lsproxy.py
+python3 msoibat.py
 ```
 
 The script will ask you for:
@@ -61,10 +61,10 @@ Press `Ctrl+C` on your laptop when done — the script will tear everything down
 If the script was killed before it could clean up, run reset mode to restore the server manually:
 
 ```bash
-python3 lsproxy.py --reset <ssh-host>
+python3 msoibat.py --reset <ssh-host>
 
 # if your server uses a non-standard SSH port:
-python3 lsproxy.py --reset <ssh-host> --ssh-port 2222
+python3 msoibat.py --reset <ssh-host> --ssh-port 2222
 ```
 
 ## Important Warning
