@@ -9,6 +9,7 @@ This left every sysadmin, developer, and DevOps engineer dealing with the same h
 ## What This Script Does
 
 It chains your traffic like this:
+<img width="936" height="421" alt="Screenshot 2026-05-08 at 9 06 21 PM" src="https://github.com/user-attachments/assets/84eb0dca-2088-4573-9df2-2fb893103347" />
 
 ```
 Your Server
