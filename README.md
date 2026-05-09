@@ -1,4 +1,10 @@
 # MOSIBAT PROXY
+> [!WARNING]
+> **This tool exists out of necessity, not endorsement.**
+>
+> Tiered internet access — where some people get a "whitelisted" SIM card with fuller connectivity while others don't — is a form of censorship and a violation of basic human rights. I do not support it, normalize it, or believe it should exist.
+>
+> MOSIBAT is a workaround for people trying to do their jobs in an increasingly dark environment. I hope the day comes when tools like this are no longer needed.
 
 ## The Problem
 
